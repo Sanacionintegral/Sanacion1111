@@ -1,0 +1,32 @@
+name: Crear programa Sanacion 11.11
+
+on:
+  workflow_dispatch:
+
+jobs:
+  crear-programa:
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar archivos
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Instalar herramientas
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install customtkinter pyinstaller
+
+      - name: Crear programa EXE
+        run: |
+          python -m PyInstaller --noconfirm --clean --onefile --windowed --name "Sanacion1111" --collect-all customtkinter app.py
+
+      - name: Guardar programa
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sanacion1111-Windows
+          path: dist/Sanacion1111.exe
